@@ -6,21 +6,16 @@
   <title>PulseAI — Your Intelligent Daily Companion</title>
   <!-- Firebase SDKs -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { initializeApp } from "firebase/app";
+  import { getAuth } from "firebase/auth";
+  import { getFirestore } from "firebase/firestore";
 
-  // ── PASTE YOUR FIREBASE CONFIG HERE ──
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+  const firebaseConfig = { ... };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+</script>
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -118,6 +113,10 @@
     <div class="grid-overlay"></div>
   </div>
   <div class="login-card">
+    <input type="email" id="userid">
+<input type="password" id="password">
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
     <div class="login-brand">
       <span class="brand-dot"></span>
       <span class="brand-name">PulseAI</span>
