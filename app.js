@@ -1248,7 +1248,7 @@ async function sendMessage() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer YOUR_API_KEY"
+        "Authorization": "Bearer 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"
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
