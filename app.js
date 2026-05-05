@@ -1177,3 +1177,36 @@ function renderInterestTags() {
     });
   });
 }
+function signup() {
+  const email = document.getElementById("userid").value;
+  const password = document.getElementById("password").value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      // 🔥 Save user in Firestore
+      db.collection("users").doc(user.uid).set({
+        email: email,
+        createdAt: new Date()
+      });
+
+      document.getElementById("msg").innerText = "Signup successful & stored!";
+    })
+    .catch(err => {
+      document.getElementById("msg").innerText = err.message;
+    });
+}
+function login() {
+  const email = document.getElementById("userid").value;
+  const password = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      document.getElementById("msg").innerText = "Login successful!";
+    })
+    .catch(err => {
+      document.getElementById("msg").innerText = err.message;
+    });
+}
+
