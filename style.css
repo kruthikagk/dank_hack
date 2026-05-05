@@ -1258,3 +1258,49 @@ body {
 .visited {
   background: #22c55e; /* green */
 }
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #0f172a, #1e293b, #3b82f6);
+  color: white;
+}
+
+.container {
+  text-align: center;
+}
+
+.logo {
+  font-size: 60px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.tagline {
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.enter-btn {
+  margin-top: 30px;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #22c55e, #3b82f6);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.enter-btn:hover {
+  transform: scale(1.1);
+}
