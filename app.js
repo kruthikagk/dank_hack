@@ -1177,50 +1177,50 @@ function renderInterestTags() {
     });
   });
 }
-const container = document.getElementById("yearCalendar");
+const heatmap = document.getElementById("heatmap");
 
 const year = 2026;
-const today = new Date();
+const start = new Date(year, 0, 1);
+const end = new Date(year, 11, 31);
 
-// storage key
 const key = `visits-${year}`;
 let visits = JSON.parse(localStorage.getItem(key)) || [];
 
 // mark today
-if (today.getFullYear() === year) {
-  const todayStr = today.toISOString().split("T")[0];
-  if (!visits.includes(todayStr)) {
-    visits.push(todayStr);
-    localStorage.setItem(key, JSON.stringify(visits));
-  }
+const today = new Date();
+const todayStr = today.toISOString().split("T")[0];
+
+if (today.getFullYear() === year && !visits.includes(todayStr)) {
+  visits.push(todayStr);
+  localStorage.setItem(key, JSON.stringify(visits));
 }
 
-// months
-const months = [
-  "Jan","Feb","Mar","Apr","May","Jun",
-  "Jul","Aug","Sep","Oct","Nov","Dec"
-];
+// align to Sunday
+start.setDate(start.getDate() - start.getDay());
 
-for (let m = 0; m < 12; m++) {
+let current = new Date(start);
+let lastMonth = -1;
 
-  // month label
-  const label = document.createElement("div");
-  label.className = "month-label";
-  label.innerText = months[m];
-  container.appendChild(label);
+while (current <= end || current.getDay() !== 0) {
 
-  const days = new Date(year, m + 1, 0).getDate();
-
-  for (let d = 1; d <= days; d++) {
-    const date = `${year}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-
-    const div = document.createElement("div");
-    div.className = "day";
-
-    if (visits.includes(date)) {
-      div.classList.add("visited");
-    }
-
-    container.appendChild(div);
+  // 👉 add gap when month changes
+  if (current.getMonth() !== lastMonth) {
+    const gap = document.createElement("div");
+    gap.className = "month-gap";
+    heatmap.appendChild(gap);
+    lastMonth = current.getMonth();
   }
+
+  const box = document.createElement("div");
+  box.className = "box";
+
+  const dateStr = current.toISOString().split("T")[0];
+
+  if (visits.includes(dateStr)) {
+    box.classList.add("visited");
+  }
+
+  heatmap.appendChild(box);
+
+  current.setDate(current.getDate() + 1);
 }
