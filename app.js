@@ -1288,3 +1288,8 @@ async function sendMessage() {
     `;
   }
 }
+body: JSON.stringify({
+  contents: [{
+    parts: [{ text: userText }]
+  }]
+})
