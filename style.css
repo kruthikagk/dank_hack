@@ -921,3 +921,315 @@ body {
   z-index: 99;
 }
 .sidebar-overlay.visible { display: block; }
+/* ════════════════════════════════════════════════════════
+   INTEREST DETAIL PAGE STYLES
+   Paste this at the VERY BOTTOM of style.css
+════════════════════════════════════════════════════════ */
+
+/* ── Make interest tags clickable in home ── */
+.interest-tag {
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+}
+.interest-tag:hover {
+  border-color: var(--accent);
+  background: rgba(124,106,255,0.12);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 16px rgba(124,106,255,0.2);
+}
+
+/* ── Page shell ── */
+#page-interest {
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+  overflow-y: auto;
+  animation: ipPageIn 0.45s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+@keyframes ipPageIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Hero ── */
+.ip-hero {
+  position: relative;
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 40px 40px;
+  overflow: hidden;
+  /* background set dynamically via JS */
+}
+.ip-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,15,0.1) 0%, rgba(10,10,15,0.75) 100%);
+  z-index: 1;
+}
+.ip-back {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  z-index: 10;
+  background: rgba(10,10,15,0.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 9px 18px;
+  border-radius: 100px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.ip-back:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.ip-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+.ip-hero-icon {
+  font-size: 4rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+.ip-hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+.ip-hero-sub {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+/* ── Body ── */
+.ip-body {
+  padding: 32px 40px 60px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Streak Row ── */
+.ip-streak-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.ip-streak-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.ip-streak-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ip-accent, var(--accent));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.ip-streak-card:hover::before { opacity: 0.06; }
+.ip-streak-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--ip-accent, var(--accent));
+  line-height: 1;
+}
+.ip-streak-label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: 6px;
+}
+
+/* ── Section ── */
+.ip-section {
+  margin-bottom: 36px;
+}
+.ip-section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ip-accent, var(--accent));
+  margin-bottom: 14px;
+}
+
+/* ── Daily card ── */
+.ip-daily-card {
+  background: var(--surface2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 26px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.ip-daily-card::after {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: var(--ip-accent, var(--accent));
+  opacity: 0.06;
+  pointer-events: none;
+}
+.ip-daily-q {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  line-height: 1.35;
+}
+.ip-daily-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ip-daily-btn {
+  background: var(--surface3);
+  border: 1.5px solid var(--border2);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'DM Sans', sans-serif;
+}
+.ip-daily-btn:hover,
+.ip-daily-btn.picked {
+  background: var(--ip-accent, var(--accent));
+  border-color: var(--ip-accent, var(--accent));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.ip-answered {
+  color: #6affda;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* ── Chart ── */
+.ip-chart-wrap {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+/* ── Events grid ── */
+.ip-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.ip-event-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.ip-event-card:hover {
+  border-color: var(--ip-accent, var(--accent));
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.35);
+}
+.ip-event-emoji { font-size: 2rem; margin-bottom: 10px; }
+.ip-event-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.ip-event-meta {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ip-event-dist {
+  font-size: 0.78rem;
+  margin-top: 8px;
+  color: var(--ip-accent, var(--accent));
+}
+.ip-no-events {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-style: italic;
+  padding: 16px 0;
+}
+
+/* ── News list ── */
+.ip-news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ip-news-loading {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-style: italic;
+  padding: 20px 0;
+}
+.ip-news-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--ip-accent, var(--accent));
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.ip-news-item:hover {
+  background: var(--surface3);
+  transform: translateX(4px);
+}
+.ip-news-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.ip-news-summary {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.ip-news-meta {
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  margin-top: 10px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .ip-hero { padding: 0 18px 30px; min-height: 200px; }
+  .ip-body { padding: 24px 18px 48px; }
+  .ip-streak-row { grid-template-columns: 1fr 1fr; }
+  .ip-streak-row .ip-streak-card:last-child { grid-column: 1/-1; }
+}
