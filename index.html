@@ -1,11 +1,209 @@
-<div id="login-page">
-    <h2>Welcome</h2>
-    <input type="text" id="username" placeholder="Username">
-    <button id="login-btn">Sign Up / Login</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseAI — Your Intelligent Daily Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     LOGIN PAGE
+══════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="login-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">PulseAI</span>
+    </div>
+    <h1 class="login-title">Your world,<br/><em>intelligently curated.</em></h1>
+    <p class="login-sub">Events near you. News that matters. Progress that's yours.</p>
+    <button class="btn-google" id="btnGoogle">
+      <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </button>
+    <p class="login-fine">By signing in you agree to our terms. Your data stays private.</p>
+  </div>
 </div>
 
-<div id="home-page" style="display: none;">
-    <h2>Home Screen</h2>
-    <p>Welcome back! You won't see the login page again.</p>
-    <button id="logout-btn">Logout</button>
+<!-- ══════════════════════════════════════════
+     ONBOARDING QUIZ
+══════════════════════════════════════════ -->
+<div id="page-quiz" class="page">
+  <div class="quiz-header">
+    <span class="brand-dot"></span><span class="brand-name">PulseAI</span>
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+    <span class="quiz-step-label" id="quizStepLabel">1 / 7</span>
+  </div>
+  <div class="quiz-body">
+    <div class="quiz-question-area">
+      <p class="quiz-cat" id="quizCat">About You</p>
+      <h2 class="quiz-q" id="quizQ">What brings you here today?</h2>
+      <p class="quiz-hint">Pick all that apply</p>
+      <div class="quiz-options" id="quizOptions"></div>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-outline" id="btnQuizBack">Back</button>
+      <button class="btn-primary" id="btnQuizNext">Next →</button>
+    </div>
+  </div>
 </div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP SHELL
+══════════════════════════════════════════ -->
+<div id="page-app" class="page">
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-dot"></span><span class="brand-name">PulseAI</span>
+    </div>
+    <div class="sidebar-avatar" id="sidebarAvatar"></div>
+    <ul class="sidebar-nav">
+      <li class="nav-item active" data-tab="home">
+        <span class="nav-icon">⌂</span><span>Home</span>
+      </li>
+      <li class="nav-item" data-tab="chat">
+        <span class="nav-icon">◈</span><span>AI Chat</span>
+      </li>
+      <li class="nav-item" data-tab="events">
+        <span class="nav-icon">◉</span><span>Events</span>
+      </li>
+      <li class="nav-item" data-tab="progress">
+        <span class="nav-icon">▦</span><span>Progress</span>
+      </li>
+      <li class="nav-item" data-tab="news">
+        <span class="nav-icon">◈</span><span>Daily Brief</span>
+      </li>
+    </ul>
+    <button class="btn-logout" id="btnLogout">Sign out</button>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <!-- Hamburger -->
+    <button class="hamburger" id="hamburger">☰</button>
+
+    <!-- ── HOME TAB ── -->
+    <section class="tab-panel active" id="tab-home">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title" id="homeGreeting">Good morning ✦</h2>
+          <p class="panel-sub">Here's what's happening for you today</p>
+        </div>
+        <div class="date-badge" id="dateBadge"></div>
+      </div>
+
+      <!-- Daily question -->
+      <div class="daily-card" id="dailyQuestionCard">
+        <div class="daily-card-label">📡 Daily Check-in</div>
+        <p class="daily-q" id="dailyQuestionText">Loading today's question…</p>
+        <div class="daily-options" id="dailyOptions"></div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-card" id="statStreak">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statEvents">0</div>
+          <div class="stat-label">Nearby Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statCheckins">0</div>
+          <div class="stat-label">Check-ins</div>
+        </div>
+      </div>
+
+      <!-- Interests tags -->
+      <div class="section-label">Your interests</div>
+      <div class="interest-tags" id="interestTags"></div>
+
+      <!-- Events preview -->
+      <div class="section-label">Nearby events for you</div>
+      <div class="events-grid" id="homeEventsGrid"></div>
+    </section>
+
+    <!-- ── CHAT TAB ── -->
+    <section class="tab-panel" id="tab-chat">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">AI Chat</h2>
+          <p class="panel-sub">Ask me anything — I know your interests</p>
+        </div>
+      </div>
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-bubble ai">
+          <div class="bubble-avatar">AI</div>
+          <div class="bubble-text" id="chatIntroMsg">Hi! I'm your PulseAI assistant. Ask me about events, news, or anything on your mind!</div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Ask me anything…" />
+        <button class="btn-send" id="btnSend">➤</button>
+      </div>
+    </section>
+
+    <!-- ── EVENTS TAB ── -->
+    <section class="tab-panel" id="tab-events">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Events Near You</h2>
+          <p class="panel-sub">Curated by your interests</p>
+        </div>
+      </div>
+      <div class="events-filter" id="eventsFilter"></div>
+      <div class="events-grid large" id="eventsGrid"></div>
+    </section>
+
+    <!-- ── PROGRESS TAB ── -->
+    <section class="tab-panel" id="tab-progress">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Your Progress</h2>
+          <p class="panel-sub">Daily engagement & streak tracking</p>
+        </div>
+      </div>
+      <div class="progress-charts">
+        <div class="chart-card">
+          <div class="chart-title">Weekly Check-ins</div>
+          <canvas id="chartCheckins" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Interest Activity</div>
+          <canvas id="chartInterests" height="180"></canvas>
+        </div>
+      </div>
+      <div class="section-label">Check-in History</div>
+      <div class="history-list" id="historyList"></div>
+    </section>
+
+    <!-- ── NEWS TAB ── -->
+    <section class="tab-panel" id="tab-news">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Daily Brief</h2>
+          <p class="panel-sub">AI-curated news matching your interests</p>
+        </div>
+      </div>
+      <div class="news-grid" id="newsGrid">
+        <div class="news-loading">Fetching your personalised brief…</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
