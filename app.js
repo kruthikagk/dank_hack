@@ -1224,3 +1224,67 @@ while (current <= end || current.getDay() !== 0) {
 
   current.setDate(current.getDate() + 1);
 }
+document.getElementById("btnSend").addEventListener("click", sendMessage);
+
+async function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const chatWindow = document.getElementById("chatWindow");
+
+  const userText = input.value.trim();
+  if (!userText) return;
+
+  input.value = "";
+
+  // show user message
+  chatWindow.innerHTML += `
+    <div class="chat-bubble user">
+      <div class="bubble-avatar">You</div>
+      <div class="bubble-text">${userText}</div>
+    </div>
+  `;
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_API_KEY"
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: "You are PulseAI assistant. Give helpful, short, smart answers."
+          },
+          {
+            role: "user",
+            content: userText
+          }
+        ]
+      })
+    });
+
+    const data = await response.json();
+
+    const reply = data.choices?.[0]?.message?.content || "No response";
+
+    // show AI reply
+    chatWindow.innerHTML += `
+      <div class="chat-bubble ai">
+        <div class="bubble-avatar">AI</div>
+        <div class="bubble-text">${reply}</div>
+      </div>
+    `;
+
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  } catch (err) {
+    console.error(err);
+    chatWindow.innerHTML += `
+      <div class="chat-bubble ai">
+        <div class="bubble-text">Error connecting to AI</div>
+      </div>
+    `;
+  }
+}
