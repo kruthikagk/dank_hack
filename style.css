@@ -1258,3 +1258,7 @@ body {
 .visited {
   background: #22c55e; /* green */
 }
+.chat-bubble.user {
+  justify-content: flex-end;
+  color: #38bdf8;
+}
