@@ -1233,22 +1233,29 @@ body {
   .ip-streak-row .ip-streak-card:last-child { grid-column: 1/-1; }
 }
 .sidebar-overlay.visible { display: block; }
-#calendar {
+#yearCalendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  max-width: 400px;
-  margin: 20px auto;
+  grid-template-columns: repeat(31, 12px);
+  gap: 3px;
+  justify-content: center;
+  margin: 20px;
 }
 
 .day {
-  padding: 10px;
-  text-align: center;
-  border-radius: 6px;
+  width: 12px;
+  height: 12px;
   background: brown;
-  color: white;
+  border-radius: 2px;
 }
 
 .visited {
   background: green;
+}
+
+.month-label {
+  grid-column: span 31;
+  font-size: 12px;
+  text-align: left;
+  margin: 5px 0;
+  color: #333;
 }
