@@ -1177,3 +1177,37 @@ function renderInterestTags() {
     });
   });
 }
+const calendar = document.getElementById("calendar");
+
+const today = new Date();
+const year = today.getFullYear();
+const month = today.getMonth();
+
+// key for storage
+const key = `visits-${year}-${month}`;
+
+// get stored visits
+let visits = JSON.parse(localStorage.getItem(key)) || [];
+
+// mark today as visited
+const todayDate = today.getDate();
+if (!visits.includes(todayDate)) {
+  visits.push(todayDate);
+  localStorage.setItem(key, JSON.stringify(visits));
+}
+
+// total days in month
+const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+// create calendar
+for (let i = 1; i <= daysInMonth; i++) {
+  const div = document.createElement("div");
+  div.classList.add("day");
+  div.innerText = i;
+
+  if (visits.includes(i)) {
+    div.classList.add("visited");
+  }
+
+  calendar.appendChild(div);
+}
