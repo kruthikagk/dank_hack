@@ -1,0 +1,10 @@
+div {
+    transition: opacity 0.3s ease-in-out;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#login-page, #home-page {
+    /* Ensure the hidden page doesn't take up space */
+    width: 100%;
+}
