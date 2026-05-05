@@ -205,5 +205,74 @@
 </div>
 
 <script src="app.js"></script>
+  <!-- ════════════════════════════════════════════════════════
+     INTEREST DETAIL PAGE  —  paste this BEFORE </body> in index.html
+     (right after the closing </div> of #page-app)
+════════════════════════════════════════════════════════ -->
+<div id="page-interest" class="page">
+
+  <!-- Dynamic hero whose colours + emoji change per interest -->
+  <div class="ip-hero" id="ipHero">
+    <div class="ip-hero-overlay"></div>
+    <button class="ip-back" id="ipBack">← Back</button>
+    <div class="ip-hero-content">
+      <div class="ip-hero-icon" id="ipHeroIcon">🍳</div>
+      <h1 class="ip-hero-title" id="ipHeroTitle">Cooking</h1>
+      <p class="ip-hero-sub" id="ipHeroSub">Your personal hub for this interest</p>
+    </div>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="ip-body">
+
+    <!-- ── Streak bar ── -->
+    <div class="ip-streak-row">
+      <div class="ip-streak-card">
+        <div class="ip-streak-num" id="ipStreakNum">0</div>
+        <div class="ip-streak-label">Day Streak</div>
+      </div>
+      <div class="ip-streak-card">
+        <div class="ip-streak-num" id="ipCheckinNum">0</div>
+        <div class="ip-streak-label">Total Check-ins</div>
+      </div>
+      <div class="ip-streak-card">
+        <div class="ip-streak-num" id="ipEventsNum">0</div>
+        <div class="ip-streak-label">Upcoming Events</div>
+      </div>
+    </div>
+
+    <!-- ── Daily check-in for THIS interest ── -->
+    <div class="ip-section">
+      <div class="ip-section-label">Today's Check-in</div>
+      <div class="ip-daily-card" id="ipDailyCard">
+        <div class="ip-daily-q" id="ipDailyQ">Loading…</div>
+        <div class="ip-daily-opts" id="ipDailyOpts"></div>
+      </div>
+    </div>
+
+    <!-- ── 7-day progress chart ── -->
+    <div class="ip-section">
+      <div class="ip-section-label">7-Day Activity</div>
+      <div class="ip-chart-wrap">
+        <canvas id="ipChart" height="160"></canvas>
+      </div>
+    </div>
+
+    <!-- ── Nearby events ── -->
+    <div class="ip-section">
+      <div class="ip-section-label">Nearby Events</div>
+      <div class="ip-events-grid" id="ipEventsGrid"></div>
+    </div>
+
+    <!-- ── Current affairs / news ── -->
+    <div class="ip-section">
+      <div class="ip-section-label">Current Affairs</div>
+      <div class="ip-news-list" id="ipNewsList">
+        <div class="ip-news-loading">Fetching latest news…</div>
+      </div>
+    </div>
+
+  </div><!-- /ip-body -->
+</div><!-- /page-interest -->
 </body>
 </html>
