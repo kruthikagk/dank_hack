@@ -1177,37 +1177,50 @@ function renderInterestTags() {
     });
   });
 }
-const calendar = document.getElementById("calendar");
+const container = document.getElementById("yearCalendar");
 
+const year = 2026;
 const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth();
 
-// key for storage
-const key = `visits-${year}-${month}`;
-
-// get stored visits
+// storage key
+const key = `visits-${year}`;
 let visits = JSON.parse(localStorage.getItem(key)) || [];
 
-// mark today as visited
-const todayDate = today.getDate();
-if (!visits.includes(todayDate)) {
-  visits.push(todayDate);
-  localStorage.setItem(key, JSON.stringify(visits));
+// mark today
+if (today.getFullYear() === year) {
+  const todayStr = today.toISOString().split("T")[0];
+  if (!visits.includes(todayStr)) {
+    visits.push(todayStr);
+    localStorage.setItem(key, JSON.stringify(visits));
+  }
 }
 
-// total days in month
-const daysInMonth = new Date(year, month + 1, 0).getDate();
+// months
+const months = [
+  "Jan","Feb","Mar","Apr","May","Jun",
+  "Jul","Aug","Sep","Oct","Nov","Dec"
+];
 
-// create calendar
-for (let i = 1; i <= daysInMonth; i++) {
-  const div = document.createElement("div");
-  div.classList.add("day");
-  div.innerText = i;
+for (let m = 0; m < 12; m++) {
 
-  if (visits.includes(i)) {
-    div.classList.add("visited");
+  // month label
+  const label = document.createElement("div");
+  label.className = "month-label";
+  label.innerText = months[m];
+  container.appendChild(label);
+
+  const days = new Date(year, m + 1, 0).getDate();
+
+  for (let d = 1; d <= days; d++) {
+    const date = `${year}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+
+    const div = document.createElement("div");
+    div.className = "day";
+
+    if (visits.includes(date)) {
+      div.classList.add("visited");
+    }
+
+    container.appendChild(div);
   }
-
-  calendar.appendChild(div);
 }
