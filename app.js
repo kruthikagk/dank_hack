@@ -780,3 +780,400 @@ function init() {
 }
 
 init();
+/* ════════════════════════════════════════════════════════
+   INTEREST DETAIL PAGE — JS MODULE
+   Paste this at the VERY BOTTOM of app.js
+════════════════════════════════════════════════════════ */
+
+// ─── INTEREST THEME MAP ──────────────────
+// Each interest gets a unique visual identity:
+// hero gradient, accent colour, Unsplash image keyword, daily questions
+const INTEREST_THEMES = {
+  "Cooking": {
+    accent: "#ff9a3c",
+    gradient: "linear-gradient(135deg,#3d1a00 0%,#8b3a00 40%,#c9591a 100%)",
+    bg: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80",
+    questions: [
+      { q: "What did you cook or try today?", opts: ["🍳 Breakfast dish", "🥗 Something healthy", "🍝 A recipe I found", "🧁 Baked something", "😅 I ordered in"] },
+      { q: "How confident are you in the kitchen today?", opts: ["👨‍🍳 Chef mode", "💪 Getting better", "😐 Average", "😬 Struggling"] },
+      { q: "What cuisine are you exploring this week?", opts: ["🇮🇳 Indian", "🍜 Asian", "🍕 Italian", "🌮 Mexican", "🌍 Something new"] }
+    ]
+  },
+  "Coding / Tech": {
+    accent: "#7c6aff",
+    gradient: "linear-gradient(135deg,#0d0d2b 0%,#1a1060 40%,#3b2dbf 100%)",
+    bg: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80",
+    questions: [
+      { q: "What did you code or build today?", opts: ["🐛 Fixed a bug", "🚀 New feature", "📚 Learning a concept", "💡 Just exploring", "😴 Rest day"] },
+      { q: "How's your flow state today?", opts: ["⚡ In the zone", "👍 Decent focus", "😐 Distracted", "🤯 Overwhelmed"] },
+      { q: "What are you working on?", opts: ["🤖 AI/ML project", "🌐 Web app", "📱 Mobile app", "🔧 Tools/scripts", "🎮 Game"] }
+    ]
+  },
+  "Hackathon": {
+    accent: "#f7c948",
+    gradient: "linear-gradient(135deg,#1a1200 0%,#4a3200 40%,#8b6300 100%)",
+    bg: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&q=80",
+    questions: [
+      { q: "How prepared do you feel for your next hackathon?", opts: ["🔥 Super ready", "💪 Getting there", "📚 Still learning", "😅 Need a team"] },
+      { q: "What's your strongest hackathon skill?", opts: ["⚡ Speed coding", "🎨 Design", "💡 Ideation", "📊 Presentation", "🤝 Team lead"] },
+      { q: "What's your goal this week?", opts: ["🏆 Win a prize", "🔧 Build a prototype", "🤝 Find teammates", "📚 Practice", "🌐 Network"] }
+    ]
+  },
+  "Art & Design": {
+    accent: "#ff6a9f",
+    gradient: "linear-gradient(135deg,#1a0010 0%,#4a0030 40%,#9b0060 100%)",
+    bg: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80",
+    questions: [
+      { q: "Did you create anything today?", opts: ["🎨 Drew or painted", "✏️ Sketched ideas", "💻 Digital design", "📷 Photography", "😴 Not today"] },
+      { q: "What's inspiring you right now?", opts: ["🌿 Nature", "🏙️ Urban life", "🎵 Music", "📚 Art history", "✨ My imagination"] },
+      { q: "What medium are you exploring?", opts: ["🖌️ Painting", "✏️ Illustration", "🖥️ UI/UX", "📸 Photography", "🎬 Motion"] }
+    ]
+  },
+  "Music": {
+    accent: "#9b6aff",
+    gradient: "linear-gradient(135deg,#0a0018 0%,#1e0050 40%,#4b0082 100%)",
+    bg: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80",
+    questions: [
+      { q: "Did you listen to or create music today?", opts: ["🎵 Listened to new stuff", "🎸 Practiced instrument", "🎧 Deep listening session", "🎤 Sang along", "😴 Not today"] },
+      { q: "What genre are you into right now?", opts: ["🎷 Jazz", "🎸 Rock/Indie", "🎹 Classical", "🔊 EDM", "🌶️ Hip-hop/R&B"] },
+      { q: "How's your musical journey?", opts: ["🚀 Progressing fast", "👍 Steady pace", "💡 Exploring new styles", "😐 Need motivation"] }
+    ]
+  },
+  "Fitness": {
+    accent: "#6affda",
+    gradient: "linear-gradient(135deg,#001a14 0%,#004a38 40%,#00836a 100%)",
+    bg: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&q=80",
+    questions: [
+      { q: "Did you work out today?", opts: ["💪 Full workout", "🚶 Light activity", "🧘 Stretching/yoga", "😴 Rest day", "😅 Skipped it"] },
+      { q: "How's your energy level?", opts: ["⚡ Peak energy", "👍 Good", "😐 Okay", "🪫 Tired"] },
+      { q: "What's your focus this week?", opts: ["🏋️ Strength", "🏃 Cardio", "🧘 Flexibility", "⚖️ Weight loss", "🏆 Performance"] }
+    ]
+  },
+  "Reading / Books": {
+    accent: "#ffb86c",
+    gradient: "linear-gradient(135deg,#1a0f00 0%,#4a2800 40%,#8b5200 100%)",
+    bg: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&q=80",
+    questions: [
+      { q: "Did you read today?", opts: ["📖 Read for an hour+", "📄 A few pages", "🎧 Audiobook", "📱 Articles/blogs", "😴 Not today"] },
+      { q: "What genre are you in?", opts: ["🚀 Sci-fi/Fantasy", "📊 Non-fiction", "🔍 Mystery/Thriller", "💭 Philosophy", "📜 Historical"] },
+      { q: "How many books this year so far?", opts: ["🏆 10+", "📚 5–9", "📖 2–4", "📄 Just 1", "🆕 Starting first"] }
+    ]
+  },
+  "Gaming": {
+    accent: "#3fa8ff",
+    gradient: "linear-gradient(135deg,#000d1a 0%,#001e40 40%,#003a80 100%)",
+    bg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80",
+    questions: [
+      { q: "Did you play today?", opts: ["🎮 Long session", "⚡ Quick match", "🎯 Competitive grind", "🌍 Explored a world", "😴 Not today"] },
+      { q: "What mode are you in?", opts: ["🏆 Ranked/Competitive", "😌 Casual", "🤝 With friends", "🧩 Solo story", "🆕 Trying new game"] },
+      { q: "What kind of games?", opts: ["🔫 FPS/Action", "🧠 Strategy/RTS", "🗡️ RPG", "🏎️ Racing/Sports", "🧩 Puzzle/Indie"] }
+    ]
+  },
+  "Travel": {
+    accent: "#6affda",
+    gradient: "linear-gradient(135deg,#001520 0%,#003050 40%,#005580 100%)",
+    bg: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
+    questions: [
+      { q: "Are you planning a trip?", opts: ["✈️ Booked one!", "🗺️ Research phase", "💭 Just dreaming", "🏠 Staycation mode", "✅ Just returned"] },
+      { q: "What kind of travel excites you?", opts: ["🏔️ Adventure", "🏖️ Beach/Relax", "🏛️ Cultural", "🍽️ Food tourism", "🎒 Backpacking"] },
+      { q: "Next destination on your wishlist?", opts: ["🇯🇵 Asia", "🇪🇺 Europe", "🌎 Americas", "🌍 Africa/ME", "🇮🇳 India local"] }
+    ]
+  },
+  "Startups": {
+    accent: "#f7c948",
+    gradient: "linear-gradient(135deg,#1a1100 0%,#3a2800 40%,#705000 100%)",
+    bg: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200&q=80",
+    questions: [
+      { q: "What did you work on startup-wise today?", opts: ["💡 Refined my idea", "🔧 Built something", "🤝 Networked", "📊 Researched market", "😴 Took a break"] },
+      { q: "Where are you in your journey?", opts: ["💭 Idea stage", "🔬 Validating", "🚀 Building MVP", "📈 Growing", "💰 Fundraising"] },
+      { q: "Biggest challenge right now?", opts: ["🧑‍🤝‍🧑 Finding co-founder", "💰 Funding", "👥 Getting users", "🔧 Tech/Product", "⏰ Time management"] }
+    ]
+  },
+  "AI & ML": {
+    accent: "#c97aff",
+    gradient: "linear-gradient(135deg,#0d0018 0%,#1e0040 40%,#480090 100%)",
+    bg: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80",
+    questions: [
+      { q: "What did you learn in AI/ML today?", opts: ["🤖 New model/paper", "💻 Coded a project", "📹 Tutorial/course", "💬 Discussed with peers", "😴 Rest day"] },
+      { q: "What's your current focus area?", opts: ["🧠 Deep Learning", "🗣️ NLP/LLMs", "👁️ Computer Vision", "🎮 Reinforcement Learning", "📊 Data Science"] },
+      { q: "How's your skill level?", opts: ["🌱 Beginner", "📚 Intermediate", "💪 Advanced", "🏆 Expert", "🚀 Researcher"] }
+    ]
+  },
+  "Wellness": {
+    accent: "#6affb4",
+    gradient: "linear-gradient(135deg,#001a0d 0%,#004020 40%,#007040 100%)",
+    bg: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=80",
+    questions: [
+      { q: "How did you take care of yourself today?", opts: ["🧘 Meditated", "🌿 Ate mindfully", "😴 Got good sleep", "🚶 Took a walk", "📓 Journaled"] },
+      { q: "What's your wellness focus?", opts: ["🧠 Mental health", "💪 Physical health", "😌 Stress relief", "🌙 Better sleep", "🌱 Healthy habits"] },
+      { q: "Mood check — how are you really?", opts: ["😄 Thriving", "🙂 Good", "😐 Neutral", "😔 Low", "🤯 Overwhelmed"] }
+    ]
+  }
+};
+
+// Fallback theme for interests without specific config
+function getTheme(interest) {
+  return INTEREST_THEMES[interest] || {
+    accent: "#7c6aff",
+    gradient: "linear-gradient(135deg,#0a0020 0%,#1a0060 40%,#3b10b0 100%)",
+    bg: null,
+    questions: [
+      { q: `How engaged are you with ${interest} today?`, opts: ["🔥 Very engaged", "👍 A bit", "😐 Not much", "💤 Off day"] },
+      { q: `What's your goal for ${interest} this week?`, opts: ["📚 Learn something", "💡 Create something", "🤝 Connect with others", "🏆 Reach a milestone"] },
+      { q: `How's your progress in ${interest}?`, opts: ["🚀 Growing fast", "📈 Steady", "😐 Plateau", "🌱 Just starting"] }
+    ]
+  };
+}
+
+// ─── INTEREST-SPECIFIC EVENTS ─────────────
+function getEventsForInterest(interest) {
+  const all = generateEvents([interest]);
+  // Return events matching this interest; fall back to top 3 generic ones
+  const matched = all.filter(e =>
+    e.category.toLowerCase().includes(interest.toLowerCase()) ||
+    interest.toLowerCase().includes(e.type)
+  );
+  return matched.length ? matched : all.slice(0, 3);
+}
+
+// ─── INTEREST-SPECIFIC DAILY CHECK-IN ────
+function getTodayCheckinKey(interest) {
+  return `checkin_interest_${interest.replace(/\s+/g,"_")}_${getTodayKey()}`;
+}
+
+function getInterestStreak(interest) {
+  const base = `checkin_interest_${interest.replace(/\s+/g,"_")}`;
+  let streak = 0;
+  const checkDate = new Date();
+  while (true) {
+    const key = base + "_" + checkDate.toISOString().slice(0, 10);
+    if (S.get(key)) { streak++; checkDate.setDate(checkDate.getDate() - 1); }
+    else break;
+  }
+  return streak;
+}
+
+function getInterestTotalCheckins(interest) {
+  const base = `checkin_interest_${interest.replace(/\s+/g,"_")}`;
+  let count = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i) || "";
+    if (key.startsWith("pulseai_" + base)) count++;
+  }
+  return count;
+}
+
+function getInterest7DayActivity(interest) {
+  const base = `checkin_interest_${interest.replace(/\s+/g,"_")}`;
+  const result = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = base + "_" + d.toISOString().slice(0, 10);
+    result.push({ label: d.toLocaleDateString("en-IN", { weekday: "short" }), done: !!S.get(key) });
+  }
+  return result;
+}
+
+// ─── NEWS FOR INTEREST ───────────────────
+async function fetchInterestNews(interest) {
+  const prompt = `You are a news curator. Generate 4 short, realistic news briefs specifically about "${interest}" relevant to someone in Bengaluru, India. Today is ${new Date().toDateString()}.
+
+Return ONLY a valid JSON array, no markdown, no backticks:
+[{"headline":"Headline here","summary":"2-3 sentence summary.","source":"Source Name","time":"X hours ago"}]`;
+  try {
+    const raw = await callClaude(
+      "You are a JSON-only news generator. Return raw JSON only, no markdown, no extra text.",
+      prompt
+    );
+    const clean = raw.replace(/```json|```/g, "").trim();
+    return JSON.parse(clean);
+  } catch {
+    return [
+      { headline: `Latest in ${interest}: New trends this week`, summary: `The ${interest} community is buzzing with new developments and exciting opportunities in Bengaluru.`, source: "PulseAI Brief", time: "1 hour ago" },
+      { headline: `${interest} spotlight: Rising stars and events`, summary: `Local enthusiasts are gathering to share insights and push boundaries in ${interest}.`, source: "PulseAI Brief", time: "3 hours ago" }
+    ];
+  }
+}
+
+// ─── RENDER INTEREST PAGE ────────────────
+let ipChart = null; // track chart instance
+
+async function openInterestPage(interest) {
+  const theme = getTheme(interest);
+  const opt = QUIZ.flatMap(q => q.options).find(o => o.label === interest);
+  const icon = opt?.icon || "✦";
+
+  // ── Apply theme ──
+  document.documentElement.style.setProperty("--ip-accent", theme.accent);
+
+  const hero = document.getElementById("ipHero");
+  if (theme.bg) {
+    hero.style.backgroundImage = `url("${theme.bg}")`;
+    hero.style.backgroundSize = "cover";
+    hero.style.backgroundPosition = "center";
+  } else {
+    hero.style.backgroundImage = theme.gradient;
+  }
+
+  document.getElementById("ipHeroIcon").textContent = icon;
+  document.getElementById("ipHeroTitle").textContent = interest;
+  document.getElementById("ipHeroSub").textContent = `Your personal ${interest} hub`;
+
+  // ── Stats ──
+  document.getElementById("ipStreakNum").textContent = getInterestStreak(interest);
+  document.getElementById("ipCheckinNum").textContent = getInterestTotalCheckins(interest);
+  document.getElementById("ipEventsNum").textContent = getEventsForInterest(interest).length;
+
+  // ── Daily Check-in ──
+  renderIpDailyQuestion(interest, theme);
+
+  // ── 7-day chart ──
+  renderIpChart(interest, theme);
+
+  // ── Events ──
+  renderIpEvents(interest, theme);
+
+  // ── News (async) ──
+  document.getElementById("ipNewsList").innerHTML = `<div class="ip-news-loading">✦ Fetching ${interest} news…</div>`;
+
+  // Show the page
+  showPage("interest");
+
+  // Back button
+  document.getElementById("ipBack").onclick = () => {
+    showPage("app");
+    // Reset CSS var
+    document.documentElement.style.removeProperty("--ip-accent");
+  };
+
+  // Fetch news in background
+  const articles = await fetchInterestNews(interest);
+  renderIpNews(articles, theme);
+}
+
+function renderIpDailyQuestion(interest, theme) {
+  const theme_data = getTheme(interest);
+  const todayKey = getTodayCheckinKey(interest);
+  const savedAnswer = S.get(todayKey);
+
+  // Rotate question by day of week
+  const qData = theme_data.questions[new Date().getDay() % theme_data.questions.length];
+
+  document.getElementById("ipDailyQ").textContent = qData.q;
+  const optsDiv = document.getElementById("ipDailyOpts");
+  optsDiv.innerHTML = "";
+
+  if (savedAnswer) {
+    optsDiv.innerHTML = `<div class="ip-answered">✅ Answered: <strong>${savedAnswer}</strong> — See you tomorrow!</div>`;
+    return;
+  }
+
+  qData.opts.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "ip-daily-btn";
+    btn.textContent = opt;
+    btn.addEventListener("click", () => {
+      S.set(todayKey, opt);
+      // Refresh streak display
+      document.getElementById("ipStreakNum").textContent = getInterestStreak(interest);
+      document.getElementById("ipCheckinNum").textContent = getInterestTotalCheckins(interest);
+      renderIpDailyQuestion(interest, theme);
+    });
+    optsDiv.appendChild(btn);
+  });
+}
+
+function renderIpChart(interest, theme) {
+  const activity = getInterest7DayActivity(interest);
+  const labels = activity.map(a => a.label);
+  const data = activity.map(a => a.done ? 1 : 0);
+
+  if (ipChart) { ipChart.destroy(); ipChart = null; }
+
+  const ctx = document.getElementById("ipChart");
+  ipChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Check-in",
+        data,
+        backgroundColor: data.map(v => v
+          ? theme.accent + "cc"
+          : "rgba(255,255,255,0.04)"
+        ),
+        borderRadius: 10,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: {
+          max: 1, min: 0,
+          ticks: { stepSize: 1, color: "rgba(240,240,248,0.35)" },
+          grid: { color: "rgba(255,255,255,0.04)" }
+        },
+        x: {
+          ticks: { color: "rgba(240,240,248,0.4)" },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+function renderIpEvents(interest, theme) {
+  const events = getEventsForInterest(interest);
+  const grid = document.getElementById("ipEventsGrid");
+  if (!events.length) {
+    grid.innerHTML = `<div class="ip-no-events">No events found near you for this interest yet.</div>`;
+    return;
+  }
+  grid.innerHTML = events.map(e => `
+    <div class="ip-event-card">
+      <div class="ip-event-emoji">${e.icon}</div>
+      <div class="ip-event-title">${e.title}</div>
+      <div class="ip-event-meta">
+        <span>📅 ${e.date}</span>
+        <span>📍 ${e.location}</span>
+      </div>
+      <div class="ip-event-dist" style="color:${theme.accent}">◉ ${e.dist} away</div>
+    </div>`
+  ).join("");
+}
+
+function renderIpNews(articles, theme) {
+  document.getElementById("ipNewsList").innerHTML = articles.map(a => `
+    <div class="ip-news-item">
+      <div class="ip-news-headline">${a.headline}</div>
+      <div class="ip-news-summary">${a.summary}</div>
+      <div class="ip-news-meta">📰 ${a.source} · ${a.time}</div>
+    </div>`
+  ).join("");
+}
+
+// ─── PATCH: Make interest tags clickable ─
+// This replaces the renderInterestTags function in the original app.js
+// Just overwrites it — place this AFTER the original function in the file
+function renderInterestTags() {
+  const container = document.getElementById("interestTags");
+  if (!container) return;
+  container.innerHTML = state.interests.length
+    ? state.interests.map(i => {
+        const opt = QUIZ.flatMap(q => q.options).find(o => o.label === i);
+        return `<div class="interest-tag" data-interest="${i}" title="Click to explore ${i}">
+          <span class="tag-icon">${opt?.icon || "✦"}</span>${i}
+        </div>`;
+      }).join("")
+    : `<span style='color:var(--text-muted);font-size:0.85rem'>No interests selected yet.</span>`;
+
+  // Attach click handlers
+  container.querySelectorAll(".interest-tag[data-interest]").forEach(tag => {
+    tag.addEventListener("click", () => {
+      openInterestPage(tag.dataset.interest);
+    });
+  });
+}
