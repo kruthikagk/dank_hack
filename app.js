@@ -1293,3 +1293,62 @@ body: JSON.stringify({
     parts: [{ text: userText }]
   }]
 })
+class ChatManager {
+    constructor(inputSelector, sendBtnSelector, windowSelector) {
+        this.input = document.querySelector(inputSelector);
+        this.button = document.querySelector(sendBtnSelector);
+        this.window = document.querySelector(windowSelector);
+        
+        this.init();
+    }
+
+    init() {
+        // Listen for click
+        this.button.addEventListener('click', () => this.handleSendMessage());
+        
+        // Listen for "Enter" key
+        this.input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.handleSendMessage();
+        });
+    }
+
+    async handleSendMessage() {
+        const message = this.input.value.trim();
+        if (!message) return;
+
+        // 1. Add User Bubble to UI
+        this.appendMessage('user', message);
+        this.input.value = '';
+
+        // 2. Fetch AI Response from your server
+        try {
+            const response = await fetch('/api/chat', { // Your backend endpoint
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: message })
+            });
+            const data = await response.json();
+            
+            // 3. Add AI Bubble to UI
+            this.appendMessage('ai', data.reply);
+        } catch (error) {
+            this.appendMessage('ai', "Sorry, I'm having trouble connecting right now.");
+        }
+    }
+
+    appendMessage(sender, text) {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${sender}`;
+        bubble.innerHTML = `
+            <div class="bubble-avatar">${sender === 'ai' ? 'AI' : 'You'}</div>
+            <div class="bubble-text">${text}</div>
+        `;
+        this.window.appendChild(bubble);
+        
+        // Auto-scroll to bottom
+        this.window.scrollTop = this.window.scrollHeight;
+    }
+}
+
+// Initialize the Chat
+const pulseChat = new ChatManager('#chatInput', '#btnSend', '#chatWindow');
