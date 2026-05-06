@@ -7,9 +7,168 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Roadmap & Resource styles scoped to page-interest -->
+  <style>
+    /* ── Section label override for interest page ── */
+    .ip-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: .85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ip-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* ── Resource / Guide link cards ── */
+    .ip-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 11px;
+      margin-bottom: .5rem;
+    }
+    .ip-link-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: border-color .2s, background .2s, transform .15s;
+      cursor: pointer;
+    }
+    .ip-link-card:hover {
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-2px);
+    }
+    .ip-link-icon { font-size: 1.4rem; line-height: 1; }
+    .ip-link-title { font-size: 13px; font-weight: 600; color: #f0efe8; }
+    .ip-link-desc  { font-size: 12px; color: #9d9c97; line-height: 1.4; }
+    .ip-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 100px;
+      width: fit-content;
+      margin-top: 3px;
+      letter-spacing: .04em;
+    }
+    .ip-badge-guide     { background: rgba(77,190,140,.15);  color: #4dbe8c; }
+    .ip-badge-article   { background: rgba(90,156,232,.15);  color: #5a9ce8; }
+    .ip-badge-video     { background: rgba(240,180,41,.15);  color: #f0b429; }
+    .ip-badge-tool      { background: rgba(232,132,90,.15);  color: #e8845a; }
+    .ip-badge-community { background: rgba(155,127,232,.15); color: #9b7fe8; }
+
+    /* ── Publisher article cards ── */
+    .ip-publishers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 13px;
+    }
+    .ip-pub-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+    }
+    .ip-pub-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .ip-pub-logo {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .ip-pub-name { font-size: 13px; font-weight: 700; color: #f0efe8; }
+    .ip-pub-type { font-size: 11px; color: #9d9c97; }
+    .ip-pub-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 9px; }
+    .ip-art-list { display: flex; flex-direction: column; gap: 7px; }
+    .ip-art-link {
+      font-size: 12px;
+      color: #9d9c97;
+      text-decoration: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      line-height: 1.4;
+      transition: color .15s;
+    }
+    .ip-art-link:hover { color: #f0efe8; }
+    .ip-art-arrow { flex-shrink: 0; margin-top: 3px; font-size: 11px; opacity: .5; }
+
+    /* ── Roadmap ── */
+    .ip-roadmap { position: relative; padding-left: 28px; }
+    .ip-roadmap::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 14px; bottom: 14px;
+      width: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+    .ip-rm-item { position: relative; margin-bottom: 26px; }
+    .ip-rm-dot {
+      position: absolute;
+      left: -24px; top: 5px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: #141417;
+    }
+    .ip-rm-dot.done   { background: #4dbe8c; border-color: #4dbe8c; box-shadow: 0 0 8px rgba(77,190,140,.4); }
+    .ip-rm-dot.now-c  { background: #e8845a; border-color: #e8845a; box-shadow: 0 0 8px rgba(232,132,90,.4); }
+    .ip-rm-dot.now-h  { background: #5a9ce8; border-color: #5a9ce8; box-shadow: 0 0 8px rgba(90,156,232,.4); }
+    .ip-rm-dot.future { background: #1c1c21; border-color: rgba(255,255,255,0.1); }
+    .ip-rm-stage {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: #5c5b58; margin-bottom: 3px;
+    }
+    .ip-rm-title { font-size: 14px; font-weight: 700; color: #f0efe8; margin-bottom: 4px; }
+    .ip-rm-desc  { font-size: 12px; color: #9d9c97; line-height: 1.55; margin-bottom: 9px; }
+    .ip-rm-links { display: flex; flex-wrap: wrap; gap: 7px; }
+    .ip-rm-link {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      text-decoration: none;
+      color: #9d9c97;
+      background: rgba(255,255,255,0.03);
+      transition: border-color .15s, color .15s, background .15s;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .ip-rm-link:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: #f0efe8;
+      background: rgba(255,255,255,0.07);
+    }
+    .ip-rm-link::after { content: '↗'; font-size: 10px; opacity: .5; }
+
+    /* interest-specific accent for "now" stage label */
+    .ip-rm-item.now-cook .ip-rm-stage { color: #e8845a; }
+    .ip-rm-item.now-hack .ip-rm-stage { color: #5a9ce8; }
+
+    /* hide/show cooking vs hackathon resources */
+    .resources-cooking, .resources-hackathon { display: none; }
+
+    @media (max-width: 600px) {
+      .ip-links-grid { grid-template-columns: 1fr 1fr; }
+      .ip-publishers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
- 
+
 <!-- ══════════════════════════════════════════
      LOGIN PAGE
 ══════════════════════════════════════════ -->
@@ -102,7 +261,7 @@
         </div>
         <div class="date-badge" id="dateBadge"></div>
       </div>
-    
+
       <div id="heatmap"></div>
       <!-- Daily question -->
       <div class="daily-card" id="dailyQuestionCard">
@@ -205,16 +364,14 @@
   </main>
 </div>
 
-  
-
 <script src="app.js"></script>
-  <!-- ════════════════════════════════════════════════════════
-     INTEREST DETAIL PAGE  —  paste this BEFORE </body> in index.html
-     (right after the closing </div> of #page-app)
+
+<!-- ════════════════════════════════════════════════════════
+     INTEREST DETAIL PAGE
 ════════════════════════════════════════════════════════ -->
 <div id="page-interest" class="page">
 
-  <!-- Dynamic hero whose colours + emoji change per interest -->
+  <!-- Dynamic hero -->
   <div class="ip-hero" id="ipHero">
     <div class="ip-hero-overlay"></div>
     <button class="ip-back" id="ipBack">← Back</button>
@@ -272,18 +429,449 @@
       <div class="ip-section-label">Current Affairs</div>
       <div class="ip-news-list" id="ipNewsList">
         <div class="ip-news-loading">Fetching latest news…</div>
-        <!-- ── Guided External Links ── -->
-<div class="ip-section">
-  <div class="ip-section-label">Guided Resources</div>
-  <div id="ipResourcesSection">
-    <!-- The widget code goes here, or load it dynamically based on currentInterest -->
-    <a href="https://cooking.nytimes.com/" target="_blank"> 
-  </div>
-</div>
       </div>
     </div>
 
+    <!-- ════════════════════════════════════════════════
+         GUIDED RESOURCES — COOKING
+    ════════════════════════════════════════════════ -->
+    <div class="ip-section resources-cooking" id="resourcesCooking">
+
+      <div class="ip-section-label">Guides &amp; Tools</div>
+      <div class="ip-links-grid">
+        <a href="https://www.seriouseats.com/guides" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">📖</div>
+          <div class="ip-link-title">Serious Eats Guides</div>
+          <div class="ip-link-desc">Science-backed technique deep dives</div>
+          <span class="ip-badge ip-badge-guide">Guide</span>
+        </a>
+        <a href="https://cooking.nytimes.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🗞️</div>
+          <div class="ip-link-title">NYT Cooking</div>
+          <div class="ip-link-desc">Tested recipes from professional kitchens</div>
+          <span class="ip-badge ip-badge-article">Article</span>
+        </a>
+        <a href="https://www.masterclass.com/categories/food-and-entertaining" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🏆</div>
+          <div class="ip-link-title">MasterClass Food</div>
+          <div class="ip-link-desc">Ramsay, Keller & world-class chef classes</div>
+          <span class="ip-badge ip-badge-video">Video</span>
+        </a>
+        <a href="https://www.kingarthurbaking.com/learn" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🍞</div>
+          <div class="ip-link-title">King Arthur Baking</div>
+          <div class="ip-link-desc">The definitive free baking school</div>
+          <span class="ip-badge ip-badge-guide">Guide</span>
+        </a>
+        <a href="https://www.youtube.com/@JoshuaWeissman" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🎬</div>
+          <div class="ip-link-title">Joshua Weissman</div>
+          <div class="ip-link-desc">Budget & technique-first video lessons</div>
+          <span class="ip-badge ip-badge-video">Video</span>
+        </a>
+        <a href="https://www.reddit.com/r/Cooking/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">💬</div>
+          <div class="ip-link-title">r/Cooking</div>
+          <div class="ip-link-desc">Ask questions & get real feedback</div>
+          <span class="ip-badge ip-badge-community">Community</span>
+        </a>
+        <a href="https://www.pepperplate.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🗂️</div>
+          <div class="ip-link-title">Pepperplate</div>
+          <div class="ip-link-desc">Recipe organiser & meal planner</div>
+          <span class="ip-badge ip-badge-tool">Tool</span>
+        </a>
+        <a href="https://www.food52.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🥗</div>
+          <div class="ip-link-title">Food52</div>
+          <div class="ip-link-desc">Recipes, tools & editorial essays</div>
+          <span class="ip-badge ip-badge-article">Article</span>
+        </a>
+      </div>
+
+      <div class="ip-section-label" style="margin-top:2rem;">Publisher Articles</div>
+      <div class="ip-publishers-grid">
+
+        <div class="ip-pub-card">
+          <div class="ip-pub-header">
+            <div class="ip-pub-logo" style="background:rgba(232,132,90,.15);">🍽️</div>
+            <div>
+              <div class="ip-pub-name">Bon Appétit</div>
+              <div class="ip-pub-type">Editorial Magazine</div>
+            </div>
+          </div>
+          <div class="ip-pub-divider"></div>
+          <div class="ip-art-list">
+            <a href="https://www.bonappetit.com/story/how-to-get-better-at-cooking" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>How to actually get better at cooking
+            </a>
+            <a href="https://www.bonappetit.com/recipes/weeknight" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Quick weeknight dinner ideas
+            </a>
+            <a href="https://www.bonappetit.com/story/knife-skills" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Essential knife skills every cook needs
+            </a>
+          </div>
+        </div>
+
+        <div class="ip-pub-card">
+          <div class="ip-pub-header">
+            <div class="ip-pub-logo" style="background:rgba(77,190,140,.15);">🌿</div>
+            <div>
+              <div class="ip-pub-name">The Guardian Food</div>
+              <div class="ip-pub-type">Long-form Journalism</div>
+            </div>
+          </div>
+          <div class="ip-pub-divider"></div>
+          <div class="ip-art-list">
+            <a href="https://www.theguardian.com/food/series/how-to-eat" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>How to Eat — the full series
+            </a>
+            <a href="https://www.theguardian.com/food" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Food &amp; drink section
+            </a>
+            <a href="https://www.theguardian.com/food/series/meera-sodha" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Meera Sodha plant-based column
+            </a>
+          </div>
+        </div>
+
+        <div class="ip-pub-card">
+          <div class="ip-pub-header">
+            <div class="ip-pub-logo" style="background:rgba(90,156,232,.15);">🔬</div>
+            <div>
+              <div class="ip-pub-name">Serious Eats</div>
+              <div class="ip-pub-type">Science-first Recipes</div>
+            </div>
+          </div>
+          <div class="ip-pub-divider"></div>
+          <div class="ip-art-list">
+            <a href="https://www.seriouseats.com/the-food-lab-complete-guide-to-pan-sauces" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Complete guide to pan sauces
+            </a>
+            <a href="https://www.seriouseats.com/knife-skills-how-to-hold-a-knife" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Knife skills for beginners
+            </a>
+            <a href="https://www.seriouseats.com/the-best-crispy-roast-potatoes-ever-recipe" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>The best crispy roast potatoes
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /publishers -->
+
+      <!-- ── COOKING ROADMAP ── -->
+      <div class="ip-section-label" style="margin-top:2rem;">Learning Roadmap</div>
+      <div class="ip-roadmap">
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot done"></div>
+          <div class="ip-rm-stage">Stage 1 · Beginner</div>
+          <div class="ip-rm-title">Kitchen Basics &amp; Safety</div>
+          <div class="ip-rm-desc">Learn knife handling, heat control, and essential hygiene. Master boiling, frying, and baking fundamentals.</div>
+          <div class="ip-rm-links">
+            <a href="https://www.seriouseats.com/knife-skills-how-to-hold-a-knife" target="_blank" class="ip-rm-link">Knife Skills</a>
+            <a href="https://www.bbcgoodfood.com/howto/guide/kitchen-safety" target="_blank" class="ip-rm-link">Kitchen Safety</a>
+            <a href="https://www.youtube.com/watch?v=ZJy1ajvMU1k" target="_blank" class="ip-rm-link">Beginner Techniques</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot done"></div>
+          <div class="ip-rm-stage">Stage 2 · Foundational</div>
+          <div class="ip-rm-title">The Five Mother Sauces</div>
+          <div class="ip-rm-desc">Béchamel, Velouté, Espagnole, Hollandaise, Tomat — master these and unlock thousands of dishes.</div>
+          <div class="ip-rm-links">
+            <a href="https://www.seriouseats.com/the-food-lab-complete-guide-to-pan-sauces" target="_blank" class="ip-rm-link">Pan Sauces Guide</a>
+            <a href="https://www.masterclass.com/articles/french-mother-sauces" target="_blank" class="ip-rm-link">Mother Sauces</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item now-cook">
+          <div class="ip-rm-dot now-c"></div>
+          <div class="ip-rm-stage">Stage 3 · Current · Intermediate</div>
+          <div class="ip-rm-title">Flavour Building &amp; Seasoning</div>
+          <div class="ip-rm-desc">Understand salt timing, acidity, umami, and fat balance. Learn to taste and adjust on the fly like a professional.</div>
+          <div class="ip-rm-links">
+            <a href="https://www.seriouseats.com/the-importance-of-seasoning" target="_blank" class="ip-rm-link">Seasoning Science</a>
+            <a href="https://cooking.nytimes.com/guides/36-how-to-season-with-salt" target="_blank" class="ip-rm-link">Salt Guide — NYT</a>
+            <a href="https://www.bonappetit.com/story/acidity-cooking" target="_blank" class="ip-rm-link">Acidity in Cooking</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot future"></div>
+          <div class="ip-rm-stage">Stage 4 · Advanced</div>
+          <div class="ip-rm-title">World Cuisines &amp; Techniques</div>
+          <div class="ip-rm-desc">Explore French, Japanese, Indian, and Italian methods. Develop a signature style and adapt recipes confidently.</div>
+          <div class="ip-rm-links">
+            <a href="https://www.masterclass.com/categories/food-and-entertaining" target="_blank" class="ip-rm-link">MasterClass</a>
+            <a href="https://www.seriouseats.com/world-cuisines" target="_blank" class="ip-rm-link">World Cuisines</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot future"></div>
+          <div class="ip-rm-stage">Stage 5 · Expert</div>
+          <div class="ip-rm-title">Recipe Development &amp; Hosting</div>
+          <div class="ip-rm-desc">Write your own recipes, plan multi-course menus, and host dinner parties confidently. Consider food blogging or pop-ups.</div>
+          <div class="ip-rm-links">
+            <a href="https://food52.com/blog/recipe-writing" target="_blank" class="ip-rm-link">Recipe Writing</a>
+            <a href="https://www.reddit.com/r/Cooking/" target="_blank" class="ip-rm-link">Share &amp; Get Feedback</a>
+          </div>
+        </div>
+
+      </div><!-- /ip-roadmap cooking -->
+    </div><!-- /resourcesCooking -->
+
+
+    <!-- ════════════════════════════════════════════════
+         GUIDED RESOURCES — HACKATHON
+    ════════════════════════════════════════════════ -->
+    <div class="ip-section resources-hackathon" id="resourcesHackathon">
+
+      <div class="ip-section-label">Guides &amp; Tools</div>
+      <div class="ip-links-grid">
+        <a href="https://devpost.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🏅</div>
+          <div class="ip-link-title">Devpost</div>
+          <div class="ip-link-desc">Largest hackathon platform — find &amp; submit projects</div>
+          <span class="ip-badge ip-badge-tool">Tool</span>
+        </a>
+        <a href="https://mlh.io/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🎓</div>
+          <div class="ip-link-title">Major League Hacking</div>
+          <div class="ip-link-desc">Official student hackathon league &amp; resources</div>
+          <span class="ip-badge ip-badge-guide">Guide</span>
+        </a>
+        <a href="https://www.hackerearth.com/challenges/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">💡</div>
+          <div class="ip-link-title">HackerEarth</div>
+          <div class="ip-link-desc">Coding challenges and hackathon listings</div>
+          <span class="ip-badge ip-badge-tool">Tool</span>
+        </a>
+        <a href="https://github.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🐙</div>
+          <div class="ip-link-title">GitHub</div>
+          <div class="ip-link-desc">Host your project, collaborate, and show your work</div>
+          <span class="ip-badge ip-badge-tool">Tool</span>
+        </a>
+        <a href="https://www.figma.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🎨</div>
+          <div class="ip-link-title">Figma</div>
+          <div class="ip-link-desc">Rapid UI/UX prototyping for hackathon demos</div>
+          <span class="ip-badge ip-badge-tool">Tool</span>
+        </a>
+        <a href="https://news.ycombinator.com/" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🔶</div>
+          <div class="ip-link-title">Hacker News</div>
+          <div class="ip-link-desc">Tech community — stay sharp on trends</div>
+          <span class="ip-badge ip-badge-community">Community</span>
+        </a>
+        <a href="https://www.youtube.com/@TechWithTim" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">🎬</div>
+          <div class="ip-link-title">Tech With Tim</div>
+          <div class="ip-link-desc">Python, AI, and project tutorials for hackers</div>
+          <span class="ip-badge ip-badge-video">Video</span>
+        </a>
+        <a href="https://www.notion.so/templates/hackathon" target="_blank" class="ip-link-card">
+          <div class="ip-link-icon">📋</div>
+          <div class="ip-link-title">Notion Templates</div>
+          <div class="ip-link-desc">Hackathon planning &amp; team coordination boards</div>
+          <span class="ip-badge ip-badge-tool">Tool</span>
+        </a>
+      </div>
+
+      <div class="ip-section-label" style="margin-top:2rem;">Publisher Articles</div>
+      <div class="ip-publishers-grid">
+
+        <div class="ip-pub-card">
+          <div class="ip-pub-header">
+            <div class="ip-pub-logo" style="background:rgba(90,156,232,.15);">⚡</div>
+            <div>
+              <div class="ip-pub-name">TechCrunch</div>
+              <div class="ip-pub-type">Tech News &amp; Startups</div>
+            </div>
+          </div>
+          <div class="ip-pub-divider"></div>
+          <div class="ip-art-list">
+            <a href="https://techcrunch.com/tag/hackathon/" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Hackathon coverage &amp; winners
+            </a>
+            <a href="https://techcrunch.com/startups/" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Startup stories from hack to launch
+            </a>
+            <a href="https://techcrunch.com/tag/artificial-intelligence/" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>AI trends to build with
+            </a>
+          </div>
+        </div>
+
+        <div class="ip-pub-card">
+          <div class="ip-pub-header">
+            <div class="ip-pub-logo" style="background:rgba(155,127,232,.15);">🔬</div>
+            <div>
+              <div class="ip-pub-name">Smashing Magazine</div>
+              <div class="ip-pub-type">Dev &amp; Design Articles</div>
+            </div>
+          </div>
+          <div class="ip-pub-divider"></div>
+          <div class="ip-art-list">
+            <a href="https://www.smashingmagazine.com/category/ux-design" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>UX design for rapid prototyping
+            </a>
+            <a href="https://www.smashingmagazine.com/category/coding" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Coding best practices
+            </a>
+            <a href="https://www.smashingmagazine.com/category/react" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>React patterns for fast builds
+            </a>
+          </div>
+        </div>
+
+        <div class="ip-pub-card">
+          <div class="ip-pub-header">
+            <div class="ip-pub-logo" style="background:rgba(77,190,140,.15);">📰</div>
+            <div>
+              <div class="ip-pub-name">Dev.to</div>
+              <div class="ip-pub-type">Developer Community Blog</div>
+            </div>
+          </div>
+          <div class="ip-pub-divider"></div>
+          <div class="ip-art-list">
+            <a href="https://dev.to/t/hackathon" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Hackathon tips from real devs
+            </a>
+            <a href="https://dev.to/t/beginners" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Beginner-friendly project ideas
+            </a>
+            <a href="https://dev.to/t/opensource" target="_blank" class="ip-art-link">
+              <span class="ip-art-arrow">›</span>Open source contribution guide
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /publishers -->
+
+      <!-- ── HACKATHON ROADMAP ── -->
+      <div class="ip-section-label" style="margin-top:2rem;">Hackathon Roadmap</div>
+      <div class="ip-roadmap">
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot done"></div>
+          <div class="ip-rm-stage">Stage 1 · Foundation</div>
+          <div class="ip-rm-title">Core Skills &amp; Tools Setup</div>
+          <div class="ip-rm-desc">Pick a language (Python or JavaScript), learn Git basics, set up VS Code, and build your first small project from scratch.</div>
+          <div class="ip-rm-links">
+            <a href="https://git-scm.com/book/en/v2" target="_blank" class="ip-rm-link">Git Handbook</a>
+            <a href="https://www.freecodecamp.org/" target="_blank" class="ip-rm-link">freeCodeCamp</a>
+            <a href="https://cs50.harvard.edu/x/" target="_blank" class="ip-rm-link">CS50</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot done"></div>
+          <div class="ip-rm-stage">Stage 2 · First Hack</div>
+          <div class="ip-rm-title">Join Your First Hackathon</div>
+          <div class="ip-rm-desc">Sign up for a beginner-friendly 24–48 hr hackathon on Devpost or MLH. Focus on shipping, not perfecting. Teamwork over solo.</div>
+          <div class="ip-rm-links">
+            <a href="https://devpost.com/hackathons?challenge_type=online" target="_blank" class="ip-rm-link">Online Hackathons</a>
+            <a href="https://mlh.io/seasons/2025/events" target="_blank" class="ip-rm-link">MLH Events</a>
+            <a href="https://www.hackerearth.com/challenges/" target="_blank" class="ip-rm-link">HackerEarth</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item now-hack">
+          <div class="ip-rm-dot now-h"></div>
+          <div class="ip-rm-stage">Stage 3 · Current · Build Speed</div>
+          <div class="ip-rm-title">Rapid Prototyping &amp; Pitching</div>
+          <div class="ip-rm-desc">Learn to wireframe in Figma in under an hour, use APIs and no-code tools to ship faster, and deliver a clear 3-minute demo pitch.</div>
+          <div class="ip-rm-links">
+            <a href="https://www.figma.com/resources/learn-design/" target="_blank" class="ip-rm-link">Figma Crash Course</a>
+            <a href="https://www.youtube.com/watch?v=TyPzY8PaHHo" target="_blank" class="ip-rm-link">Demo Pitch Tips</a>
+            <a href="https://rapidapi.com/" target="_blank" class="ip-rm-link">Public APIs</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot future"></div>
+          <div class="ip-rm-stage">Stage 4 · Specialize</div>
+          <div class="ip-rm-title">Pick a Domain — AI, Web3, or Hardware</div>
+          <div class="ip-rm-desc">Go deep in one area: AI/ML with Hugging Face, Web3 with Solidity, or IoT with Raspberry Pi. Enter domain-specific hackathons.</div>
+          <div class="ip-rm-links">
+            <a href="https://huggingface.co/learn" target="_blank" class="ip-rm-link">Hugging Face</a>
+            <a href="https://cryptozombies.io/" target="_blank" class="ip-rm-link">Web3 / Solidity</a>
+            <a href="https://www.raspberrypi.com/documentation/" target="_blank" class="ip-rm-link">Raspberry Pi Docs</a>
+          </div>
+        </div>
+
+        <div class="ip-rm-item">
+          <div class="ip-rm-dot future"></div>
+          <div class="ip-rm-stage">Stage 5 · Launch</div>
+          <div class="ip-rm-title">Turn Your Hack Into a Product</div>
+          <div class="ip-rm-desc">Convert your winning project into a real product. Apply to Y Combinator, Product Hunt launch, or open-source on GitHub for visibility.</div>
+          <div class="ip-rm-links">
+            <a href="https://www.ycombinator.com/apply" target="_blank" class="ip-rm-link">YC Application</a>
+            <a href="https://www.producthunt.com/" target="_blank" class="ip-rm-link">Product Hunt</a>
+            <a href="https://github.com/explore" target="_blank" class="ip-rm-link">GitHub Explore</a>
+          </div>
+        </div>
+
+      </div><!-- /ip-roadmap hackathon -->
+    </div><!-- /resourcesHackathon -->
+
   </div><!-- /ip-body -->
 </div><!-- /page-interest -->
+
+<!-- ════════════════════════════════════════════════════════
+     JS: Show correct resource block based on current interest
+     This hooks into whatever variable your app.js uses to
+     track the active interest (currentInterest or ipHeroTitle).
+     Place this AFTER app.js loads.
+════════════════════════════════════════════════════════ -->
+<script>
+  (function () {
+    // Called by your existing app whenever the interest page opens.
+    // If your app already calls a function like openInterestPage(name),
+    // just add showInterestResources(name) inside it instead.
+    function showInterestResources(interestName) {
+      var name = (interestName || '').toLowerCase();
+      var cook = document.getElementById('resourcesCooking');
+      var hack = document.getElementById('resourcesHackathon');
+      if (!cook || !hack) return;
+
+      if (name.includes('cook')) {
+        cook.style.display = 'block';
+        hack.style.display = 'none';
+      } else if (name.includes('hack')) {
+        cook.style.display = 'none';
+        hack.style.display = 'block';
+      } else {
+        // Neither — hide both; keeps page clean for other interests
+        cook.style.display = 'none';
+        hack.style.display = 'none';
+      }
+    }
+
+    // Expose globally so app.js can call it
+    window.showInterestResources = showInterestResources;
+
+    // Auto-detect on page load by reading the hero title
+    // (works if app.js sets ipHeroTitle before DOMContentLoaded)
+    document.addEventListener('DOMContentLoaded', function () {
+      var titleEl = document.getElementById('ipHeroTitle');
+      if (titleEl) showInterestResources(titleEl.textContent);
+
+      // Watch for hero title changes (MutationObserver)
+      // so it updates whenever the user switches interests.
+      if (titleEl && window.MutationObserver) {
+        new MutationObserver(function () {
+          showInterestResources(titleEl.textContent);
+        }).observe(titleEl, { childList: true, characterData: true, subtree: true });
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
